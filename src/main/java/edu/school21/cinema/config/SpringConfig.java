@@ -1,6 +1,7 @@
 package edu.school21.cinema.config;
 
 import edu.school21.cinema.repositories.UserDAO;
+import edu.school21.cinema.services.UserHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -46,4 +49,17 @@ public class SpringConfig {
     public UserDAO userDAO(JdbcTemplate jdbcTemplate) {
         return new UserDAO(jdbcTemplate());
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
+    }
+
+    @Bean
+    public UserHandler userHandler(){
+        return new UserHandler();
+    }
+
+
 }

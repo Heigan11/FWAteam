@@ -2,7 +2,9 @@ package edu.school21.cinema.servlets;
 
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.repositories.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,6 +20,9 @@ public class SignInServlet extends HttpServlet {
 
     private final String SIGNIN_HTML = "/WEB-INF/html/signIn.html";
     private ApplicationContext springContext;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -37,6 +42,7 @@ public class SignInServlet extends HttpServlet {
         resp.setContentType("text/html");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+//        String password = passwordEncoder.encode(req.getParameter("password"));
         Optional<User> user = userDAO.findByEmail(email);
         if (!user.isPresent() || !password.equals(user.get().getPassword()))
             req.getRequestDispatcher(SIGNIN_HTML).forward(req, resp);

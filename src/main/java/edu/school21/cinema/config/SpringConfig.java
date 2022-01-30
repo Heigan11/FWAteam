@@ -1,7 +1,5 @@
 package edu.school21.cinema.config;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import edu.school21.cinema.repositories.UserDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +13,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("edu.school21.cinema")
-@PropertySource("../application.properties")
+@PropertySource("classpath:../application.properties")
 public class SpringConfig {
 
     @Value("${spring.datasource.url}")

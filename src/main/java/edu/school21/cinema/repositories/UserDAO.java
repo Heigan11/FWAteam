@@ -1,17 +1,13 @@
 package edu.school21.cinema.repositories;
 
 import edu.school21.cinema.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
-import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
+import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
-//@Component
 public class UserDAO {
 
     private final JdbcTemplate jdbcTemplate;
@@ -22,36 +18,42 @@ public class UserDAO {
 
     public List<User> showTable(){
         return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
-//        return jdbcTemplate.query("SELECT * FROM users", new UserMapper());
     }
 
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         return jdbcTemplate.query("SELECT * FROM users WHERE email=?", new Object[]{email}, new BeanPropertyRowMapper<>(User.class))
-                .stream().findAny().orElse(null);
+                .stream().findAny();
     }
 
-//    public void save(User user) {
-//
-//        jdbcTemplate.update("INSERT INTO users (?, ?, ?, ?, ?) VALUES",
-//                user.getName(), user.getSurname(), user.getPhone(), user.getEmail(), user.getPassword());
-//    }
+    public User saveUser(User user) throws SQLException {
+        String SQL = "insert into users(name, surname, phone, email, password) values (?, ?, ?, ?, ?)";
+        try (
+                Connection connection = jdbcTemplate.getDataSource().getConnection();
+                PreparedStatement statement = connection.prepareStatement(SQL,
+                        Statement.RETURN_GENERATED_KEYS);
+        ) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getPhone());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getPassword());
 
-    public void saveUser(User user) {
-        try {
+            int affectedRows = statement.executeUpdate();
 
-            String SQL = "insert into users(name, surname, phone, email, password) values (?, ?, ?, ?, ?)";
-            jdbcTemplate.execute(SQL, (PreparedStatementCallback<Object>) ps -> {
-                ps.setString(1, user.getName());
-                ps.setString(2, user.getSurname());
-                ps.setString(3, user.getPhone());
-                ps.setString(4, user.getEmail());
-                ps.setString(5, user.getPassword());
-                return ps.execute();
-            });
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    user.setId(generatedKeys.getLong(1));
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         }
-        catch (DuplicateKeyException e) {
-            System.out.println("Error during registration." + e.getMessage());
-        }
+        return user;
     }
 
     public void update(String email, User updatedUser) {

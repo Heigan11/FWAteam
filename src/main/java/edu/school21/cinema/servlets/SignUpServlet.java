@@ -3,6 +3,7 @@ package edu.school21.cinema.servlets;
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.repositories.UserDAO;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/signUp")
 public class SignUpServlet extends HttpServlet {
@@ -38,13 +40,20 @@ public class SignUpServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        if (!email.isEmpty() && !password.isEmpty() && !name.isEmpty() && !surname.isEmpty() && !phone.isEmpty()) {
+        if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(surname) &&
+                !StringUtils.isEmpty(phone) && !StringUtils.isEmpty(email) && !StringUtils.isEmpty(password)) {
 //            req.getRequestDispatcher("/WEB-INF/html/registered.html").forward(req, resp);
-            if (userDAO.findByEmail(email) == null)
-                userDAO.saveUser(new User(name, surname, phone, email, password));
-            req.getRequestDispatcher(userDAO.showTable().toString()).forward(req, resp);
-        } else
-            req.getRequestDispatcher("/WEB-INF/html/signUp.html").forward(req, resp);
+            if (!userDAO.findByEmail(email).isPresent()) {
+                try {
+                    userDAO.saveUser(new User(name, surname, phone, email, password));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                req.getRequestDispatcher(userDAO.showTable().toString()).forward(req, resp);
+                return;
+            }
+        }
+        req.getRequestDispatcher("/WEB-INF/html/signUp.html").forward(req, resp);
     }
 
     @Override

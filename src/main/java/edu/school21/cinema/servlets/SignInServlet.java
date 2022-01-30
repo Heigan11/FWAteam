@@ -11,10 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet("/signIn")
 public class SignInServlet extends HttpServlet {
 
+    private final String SIGNIN_HTML = "/WEB-INF/html/signIn.html";
     private ApplicationContext springContext;
 
     @Override
@@ -24,7 +26,7 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
+        req.getRequestDispatcher(SIGNIN_HTML).forward(req, resp);
     }
 
     @Override
@@ -35,9 +37,9 @@ public class SignInServlet extends HttpServlet {
         resp.setContentType("text/html");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        User user = userDAO.findByEmail(email);
-        if (user == null || !password.equals(user.getPassword()))
-            req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
+        Optional<User> user = userDAO.findByEmail(email);
+        if (!user.isPresent() || !password.equals(user.get().getPassword()))
+            req.getRequestDispatcher(SIGNIN_HTML).forward(req, resp);
         else
             req.getRequestDispatcher(user.toString()).forward(req, resp);
     }

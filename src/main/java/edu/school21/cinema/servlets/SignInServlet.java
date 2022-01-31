@@ -2,6 +2,7 @@ package edu.school21.cinema.servlets;
 
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.repositories.UserDAO;
+import edu.school21.cinema.services.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +22,6 @@ public class SignInServlet extends HttpServlet {
     private final String SIGNIN_HTML = "/WEB-INF/html/signIn.html";
     private ApplicationContext springContext;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     @Override
     public void init(ServletConfig config) throws ServletException {
         springContext = (ApplicationContext) config.getServletContext().getAttribute("springContext");
@@ -37,17 +35,12 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        UserDAO userDAO = springContext.getBean("userDAO", UserDAO.class);
+        UserHandler userHandler = springContext.getBean("userHandler", UserHandler.class);
 
-        resp.setContentType("text/html");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-//        String password = passwordEncoder.encode(req.getParameter("password"));
-        Optional<User> user = userDAO.findByEmail(email);
-        if (!user.isPresent() || !password.equals(user.get().getPassword()))
-            req.getRequestDispatcher(SIGNIN_HTML).forward(req, resp);
+        if (userHandler.read(req.getParameter("email"), req.getParameter("password")))
+            req.getRequestDispatcher("/WEB-INF/html/welcome.html").forward(req, resp);
         else
-            req.getRequestDispatcher(user.toString()).forward(req, resp);
+            req.getRequestDispatcher(SIGNIN_HTML).forward(req, resp);
     }
 
     @Override

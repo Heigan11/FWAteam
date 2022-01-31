@@ -23,9 +23,6 @@ public class SignUpServlet extends HttpServlet {
     private final String SIGNUP_HTML = "/WEB-INF/html/signUp.html";
     private ApplicationContext springContext;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     @Override
     public void init(ServletConfig config) throws ServletException {
         springContext = (ApplicationContext) config.getServletContext().getAttribute("springContext");
@@ -39,40 +36,17 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-//        UserDAO userDAO = springContext.getBean("userDAO", UserDAO.class);
         UserHandler userHandler = springContext.getBean("userHandler", UserHandler.class);
 
-        String name = req.getParameter("name");
-        String surname = req.getParameter("surname");
-        String phone = req.getParameter("phone");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-
         try {
-            if (userHandler.create(name, surname, phone, email, password))
+            if (userHandler.create(req.getParameter("name"), req.getParameter("surname"), req.getParameter("phone"),
+                    req.getParameter("email"), req.getParameter("password")))
                 req.getRequestDispatcher("/WEB-INF/html/registered.html").forward(req, resp);
             else
                 req.getRequestDispatcher(SIGNUP_HTML).forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        String password = passwordEncoder.encode(req.getParameter("password"));
-
-//        if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(surname) &&
-//                !StringUtils.isEmpty(phone) && !StringUtils.isEmpty(email) && !StringUtils.isEmpty(password)) {
-////            req.getRequestDispatcher("/WEB-INF/html/registered.html").forward(req, resp);
-//            if (!userDAO.findByEmail(email).isPresent()) {
-//                try {
-//                    userDAO.saveUser(new User(name, surname, phone, email, password));
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                req.getRequestDispatcher(userDAO.showTable().toString()).forward(req, resp);
-//                return;
-//            }
-//        }
-//        req.getRequestDispatcher(SIGNUP_HTML).forward(req, resp);
     }
 
     @Override

@@ -4,7 +4,7 @@ insert into users (name, surname, phone, email, password) VALUES
         'Inkov',
         '+79851961010',
         'heigan@gmail.com',
-        '12345'
+        '$2a$10$y2VLvkxGnUv5LnOTPDF8VuusJYURmEshgXAqaxe5BOb/oLUSjgsJK'
     );
 insert into users (name, surname, phone, email, password) VALUES
     (
@@ -12,5 +12,5 @@ insert into users (name, surname, phone, email, password) VALUES
         'Gref',
         '+75555555555',
         'glavny@sberbank.ru',
-        '54321'
+        '$2a$10$y2VLvkxGnUv5LnOTPDF8VuusJYURmEshgXAqaxe5BOb/oLUSjgsJK'
     );

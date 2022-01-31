@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class UserHandler {
 
@@ -29,4 +30,14 @@ public class UserHandler {
         }
         return false;
     }
+
+    public boolean read(String email, String password){
+        if(!StringUtils.isEmpty(email) && !StringUtils.isEmpty(password)){
+            Optional<User> user = userDAO.findByEmail(email);
+            if(user.isPresent() && passwordEncoder.matches(password, user.get().getPassword()))
+                return true;
+        }
+        return false;
+    }
+
 }

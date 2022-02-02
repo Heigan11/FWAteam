@@ -27,7 +27,7 @@ public class AuthFilter implements Filter {
         final HttpSession session = req.getSession();
 
         if(!StringUtils.isEmpty(requestURI) &&
-                ((requestURI.contains("signIn") || requestURI.contains("signUp"))
+                ((requestURI.contains("signIn") || requestURI.contains("signUp") || requestURI.contains("profile"))
                         && session.getAttribute("user") != null)){
             resp.sendRedirect("profile");
             return;

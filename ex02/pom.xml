@@ -20,6 +20,8 @@
         <maven.plugin.version>3.8.1</maven.plugin.version>
         <cargo.version>1.7.6</cargo.version>
         <lombok.version>1.18.12</lombok.version>
+        <jstl.version>1.2</jstl.version>
+        <taglibs.version>1.1.2</taglibs.version>
     </properties>
 
     <dependencies>
@@ -71,6 +73,19 @@
             <artifactId>spring-security-core</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${taglibs.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

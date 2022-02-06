@@ -1,4 +1,5 @@
-<%--
+<%@ page import="edu.school21.cinema.models.User" %>
+<%@ page import="java.util.Optional" %><%--
   Created by IntelliJ IDEA.
   User: heigan
   Date: 02.02.2022
@@ -12,8 +13,24 @@
     <title>Profile</title>
 </head>
 <body>
-    <c:out value="${sessionScope.user.name}"/>
-    <c:out value="${sessionScope.user.surname}"/>
-    <c:out value="${sessionScope.user.email}"/>
+<%--        <% User user = ((Optional<User>) request.getSession().getAttribute("user")).get();%>--%>
+<%--        <h2><%=user.getName()%> <%=user.getSurname()%></h2>--%>
+<%--        <h2><%=user.getEmail()%></h2>--%>
+
+    <h2>
+        <c:out value="${sessionScope.authUser.name}"/>
+        <c:out value="${sessionScope.authUser.surname}"/>
+        <br>
+        <c:out value="${sessionScope.authUser.email}"/>
+        <br>
+        <c:forEach items="${sessionScope.authArr}" var="item">
+            ${item}<br>
+        </c:forEach>
+
+    </h2>
+
+    <a href="/logout">Logout</a>
+
+
 </body>
 </html>

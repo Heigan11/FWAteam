@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 @WebServlet("/signIn")
 public class SignInServlet extends HttpServlet {
@@ -31,10 +33,18 @@ public class SignInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         UserHandler userHandler = springContext.getBean("userHandler", UserHandler.class);
+        final String EMAIL = req.getParameter("email");
 
-        if (userHandler.read(req.getParameter("email"), req.getParameter("password"))){
+        if (userHandler.read(EMAIL, req.getParameter("password"))){
             HttpSession session = req.getSession();
-            session.setAttribute("user", userHandler.get(req.getParameter("email")));
+            try {
+                userHandler.setAuth(EMAIL, req.getRemoteAddr());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            session.setAttribute("user", userHandler.get(EMAIL));
+            session.setAttribute("authArr", userHandler.getAuth(EMAIL));
+            System.out.println(userHandler.getAuth(EMAIL));
             resp.sendRedirect("profile");
         }
         else doGet(req, resp);

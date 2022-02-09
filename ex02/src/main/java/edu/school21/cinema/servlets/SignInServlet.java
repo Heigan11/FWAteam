@@ -44,7 +44,6 @@ public class SignInServlet extends HttpServlet {
             }
             session.setAttribute("user", userHandler.get(EMAIL));
             session.setAttribute("authArr", userHandler.getAuth(EMAIL));
-            System.out.println(userHandler.getAuth(EMAIL));
             resp.sendRedirect("profile");
         }
         else doGet(req, resp);

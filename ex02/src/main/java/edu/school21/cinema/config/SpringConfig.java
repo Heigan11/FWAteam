@@ -27,6 +27,9 @@ public class SpringConfig {
     private String datasource_password;
     @Value("${spring.datasource.driver.name}")
     private String datasource_driver_name;
+    @Value("${storage.path}")
+    private String storage_path;
+
 
     @Bean
     public DataSource dataSource() {
@@ -58,5 +61,10 @@ public class SpringConfig {
     @Bean
     public UserHandler userHandler(){
         return new UserHandler();
+    }
+
+    @Bean
+    public String getStoragePath(){
+        return storage_path;
     }
 }

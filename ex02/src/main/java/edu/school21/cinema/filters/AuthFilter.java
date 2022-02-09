@@ -32,7 +32,7 @@ public class AuthFilter implements Filter {
             resp.sendRedirect("profile");
             return;
         }
-        if (session.getAttribute("user") == null && requestURI.contains("profile")){
+        if (session.getAttribute("user") == null && (requestURI.contains("profile") || requestURI.contains("upload"))){
             resp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
         }

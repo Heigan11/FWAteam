@@ -13,21 +13,34 @@
     <title>Profile</title>
 </head>
 <body>
-<%--        <% User user = ((Optional<User>) request.getSession().getAttribute("user")).get();%>--%>
-<%--        <h2><%=user.getName()%> <%=user.getSurname()%></h2>--%>
-<%--        <h2><%=user.getEmail()%></h2>--%>
-
     <h2>
         <c:out value="${sessionScope.authUser.name}"/>
         <c:out value="${sessionScope.authUser.surname}"/>
         <br>
         <c:out value="${sessionScope.authUser.email}"/>
-        <br>
-        <c:forEach items="${sessionScope.authArr}" var="item">
-            ${item}<br>
-        </c:forEach>
-
     </h2>
+
+    <h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>IP</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${sessionScope.authArr}" var="item">
+            <tr>
+                <td>${item.date}</td>
+                <td>${item.time}</td>
+                <td>${item.ip}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    </h2>
+
 
     <a href="/logout">Logout</a>
 

@@ -35,12 +35,7 @@ public class FileServlet extends HttpServlet {
 
         String storage_path = springContext.getBean("getStoragePath", String.class);
         storage_path = storage_path + user.getEmail() + "/";
-        File f = new File(storage_path);
-        if (!f.exists())
-            if (!f.mkdir())
-                return;
 
-        System.out.println(storage_path);
         for (Part part : req.getParts()) {
             try {
                 part.write((storage_path + part.getSubmittedFileName()));

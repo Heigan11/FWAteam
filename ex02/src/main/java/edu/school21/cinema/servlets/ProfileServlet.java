@@ -41,6 +41,8 @@ public class ProfileServlet extends HttpServlet {
             if (!f.mkdir())
                 req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
 
+        session.setAttribute("storagePath", storage_path);
+
         ArrayList<String> uplodedFiles = new ArrayList<>();
         Tika tika = new Tika();
         if (Objects.requireNonNull(f.listFiles()).length != 0) {

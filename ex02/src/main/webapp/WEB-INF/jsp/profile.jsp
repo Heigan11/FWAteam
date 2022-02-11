@@ -38,7 +38,8 @@
         <button type="submit">Upload</button>
     </form>
 
-    <img src="${pageContext.request.contextPath}/images/no-img.jpg" width="150" height="180">
+<%--    <img src="${pageContext.request.contextPath}/images/no-img.jpg" width="150" height="180">--%>
+    <img src="data:<%=request.getAttribute("mimeType")%>;base64,<%=request.getAttribute("image")%>" style="height: 30%; width: 30%;">
     <br>
 
 
@@ -52,6 +53,7 @@
                 <th>File name</th>
                 <th>Size</th>
                 <th>MIME</th>
+                <th>Avatar</th>
             </tr>
             </thead>
             <tbody>
@@ -63,12 +65,14 @@
                     </td>
                     <td>${item.substring(item.indexOf(" "), item.lastIndexOf(" "))}</td>
                     <td>${item.substring(item.lastIndexOf(" "))}</td>
+                    <td>
+                        <a href="setAvatar/${item.substring(0, item.indexOf(" "))}" >Set</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </h2>
-
 
 </body>
 </html>

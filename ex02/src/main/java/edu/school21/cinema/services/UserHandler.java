@@ -64,4 +64,8 @@ public class UserHandler {
         return authArray;
     }
 
+    public void setAvatar(String email, String avatarPath){
+        if (!StringUtils.isEmpty(email) && !StringUtils.isEmpty(avatarPath))
+            userDAO.updateAvatar(email, avatarPath);
+    }
 }

@@ -17,8 +17,7 @@ public class User {
     String phone;
     String email;
     String password;
-//    ArrayDeque<Auth> authHistory = new ArrayDeque<>();
-
+    String avatar;
 
     public User(String name, String surname, String phone, String email, String password) {
         this.name = name;
@@ -26,13 +25,6 @@ public class User {
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.avatar = "";
     }
-
-//    public void addToAuthHistory(Auth auth){
-//        if (authHistory.size() >= 4){
-//            System.out.println("full");
-//            authHistory.pollLast();
-//            authHistory.push(auth);
-//        } else authHistory.push(auth);
-//    }
 }

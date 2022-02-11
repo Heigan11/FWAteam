@@ -5,7 +5,8 @@ CREATE TABLE users(
                       surname varchar(50) not null,
                       phone varchar(50) unique not null,
                       email varchar(50) not null,
-                      password varchar(100) not null);
+                      password varchar(100) not null,
+                      avatar varchar(100) not null);
 
 drop table if exists auth;
 CREATE TABLE auth(

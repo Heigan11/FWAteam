@@ -29,8 +29,12 @@ public class UserDAO {
         }
     }
 
+    public void updateAvatar(String email, String avatarPath) {
+        jdbcTemplate.update("update users set avatar = ? where email = ?", avatarPath, email);
+    }
+
     public User saveUser(User user) throws SQLException {
-        String SQL = "insert into users(name, surname, phone, email, password) values (?, ?, ?, ?, ?)";
+        String SQL = "insert into users(name, surname, phone, email, password, avatar) values (?, ?, ?, ?, ?, ?)";
         try (
                 Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
                 PreparedStatement statement = connection.prepareStatement(SQL,
@@ -41,6 +45,7 @@ public class UserDAO {
             statement.setString(3, user.getPhone());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getPassword());
+            statement.setString(6, "");
 
             int affectedRows = statement.executeUpdate();
 
@@ -82,6 +87,5 @@ public class UserDAO {
 
     public List<Auth> getAuth(String email) {
         return jdbcTemplate.query("SELECT * FROM auth WHERE email=?", new Object[]{email}, new BeanPropertyRowMapper<>(Auth.class));
-//        return jdbcTemplate.query("SELECT * FROM auth", new BeanPropertyRowMapper<>(Auth.class));
     }
 }

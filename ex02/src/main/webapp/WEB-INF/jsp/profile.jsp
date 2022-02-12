@@ -6,8 +6,11 @@
     <style>
 
         table {
-            /*width: 300px; !* Ширина таблицы *!*/
             margin: auto; /* Выравниваем таблицу по центру */
+        }
+
+        .maintable {
+            margin: 200px auto; /* Выравниваем таблицу по центру */
         }
 
         .buttons {
@@ -25,24 +28,6 @@
             text-transform: uppercase;
             text-align: center;
         }
-        /*.tables {*/
-        /*    width: 100%;*/
-        /*    margin-bottom: 20px;*/
-        /*    border: 1px solid black;*/
-        /*    border-collapse: collapse;*/
-        /*}*/
-        /*.tables th {*/
-        /*    font-weight: bold;*/
-        /*    padding: 5px;*/
-        /*    background: #efefef;*/
-        /*    border: 1px solid black;*/
-        /*    text-align: center;*/
-        /*}*/
-        /*.tables td {*/
-        /*    border: 1px solid black;*/
-        /*    padding: 5px;*/
-        /*    text-align: center;*/
-        /*}*/
 
         .tables {
             width: auto;
@@ -94,17 +79,15 @@
     </style>
 </head>
 <body>
-<table>
+<div class="maintable">
+<table width="800">
     <tbody>
     <tr>
         <td>
-
-        <%--    <img src="${pageContext.request.contextPath}/images/no-img.jpg" width="150" height="180">--%>
             <img src="data:<%=request.getAttribute("mimeType")%>;base64,<%=request.getAttribute("image")%>"
                  width="280" height="320">
-            <br>
-            <br>
             <form method="post" action="/images" enctype="multipart/form-data">
+                <br>
                 <input type="file" name="file-name">
                 <button type="submit">Upload</button>
             </form>
@@ -118,7 +101,7 @@
             </h2>
 
             <div class="tables">
-                <table>
+                <table width="490">
                     <thead>
                     <tr>
                         <th><c:out value="Date"/></th>
@@ -147,7 +130,7 @@
 <br>
 
 <div class="tables">
-    <table>
+    <table width="800">
         <thead>
         <tr>
             <th>File name</th>
@@ -172,6 +155,7 @@
         </c:forEach>
         </tbody>
     </table>
+</div>
 </div>
 
 </body>

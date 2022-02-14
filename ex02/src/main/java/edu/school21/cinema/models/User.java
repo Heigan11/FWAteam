@@ -1,11 +1,7 @@
 package edu.school21.cinema.models;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor

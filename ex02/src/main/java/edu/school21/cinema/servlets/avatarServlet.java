@@ -43,22 +43,9 @@ public class avatarServlet extends HttpServlet {
 
         userHandler.setAvatar(user.getEmail(), imagePath);
 
-//        System.out.println(userHandler.get(user.getEmail()).get().getAvatar());
-
         session.removeAttribute("image");
         session.removeAttribute("mimeType");
         resp.reset();
         resp.sendRedirect("/profile");
-
-//        Tika tika = new Tika();
-//        File file = new File(imagePath);
-//
-//        String mimeType = tika.detect(file);
-//
-//        resp.reset();
-//        resp.setContentType(mimeType);
-//        resp.setHeader("Content-Length", String.valueOf(file.length()));
-//
-//        Files.copy(file.toPath(), resp.getOutputStream());
     }
 }

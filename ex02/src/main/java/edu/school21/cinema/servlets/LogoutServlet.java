@@ -19,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
         final HttpSession session = req.getSession();
         session.removeAttribute("user");
         session.removeAttribute("storagePath");
-        session.removeAttribute("uplodedFiles");
+        session.removeAttribute("uploadedFiles");
         session.removeAttribute("authUser");
         session.removeAttribute("image");
         session.removeAttribute("mimeType");

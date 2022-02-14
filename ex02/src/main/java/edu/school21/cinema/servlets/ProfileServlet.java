@@ -25,6 +25,43 @@ public class ProfileServlet extends HttpServlet {
 
     private ApplicationContext springContext;
 
+    private File setImg(User user, String defaultImg) throws IOException {
+        Tika tika = new Tika();
+        File img;
+        if (!user.getAvatar().isEmpty()) {
+            img = new File(user.getAvatar());
+            if (!tika.detect(img).split("/")[0].equals("image"))
+                img = new File(defaultImg);
+        } else
+            img = new File(defaultImg);
+        return img;
+    }
+
+    private void setMimeType(File img, HttpSession session) throws IOException {
+        Tika tika = new Tika();
+        String mimeType = tika.detect(img);
+        session.setAttribute("mimeType", mimeType);
+    }
+
+    private void setEncodedString(File img, HttpSession session) throws IOException {
+        byte[] fileContent = FileUtils.readFileToByteArray(img);
+        String encodedString = Base64.getEncoder().encodeToString(fileContent);
+        session.setAttribute("image", encodedString);
+    }
+
+    private void setUploadedFiles(File f, HttpSession session) throws IOException {
+        Tika tika = new Tika();
+        String mimeType;
+        ArrayList<String> uplodedFiles = new ArrayList<>();
+        if (Objects.requireNonNull(f.listFiles()).length != 0) {
+            for (File file : Objects.requireNonNull(f.listFiles())) {
+                mimeType = tika.detect(file);
+                uplodedFiles.add(file.getName() + " " + file.length() + " " + mimeType);
+            }
+            session.setAttribute("uploadedFiles", uplodedFiles);
+        }
+    }
+
     @Override
     public void init(ServletConfig config) {
         springContext = (ApplicationContext) config.getServletContext().getAttribute("springContext");
@@ -45,36 +82,17 @@ public class ProfileServlet extends HttpServlet {
         File f = new File(storage_path);
         if (!f.exists())
             if (!f.mkdir())
-                req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
+//                req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
+                resp.sendRedirect("/signIn");
 
         session.setAttribute("storagePath", storage_path);
 
-        Tika tika = new Tika();
-        File img;
-        if (!user.getAvatar().isEmpty()) {
-            img = new File(user.getAvatar());
-            if (!tika.detect(img).split("/")[0].equals("image"))
-                img = new File(defaultImg);
-        }
-        else {
-            img = new File(defaultImg);
-        }
+        File img = setImg(user, defaultImg);
 
-        String mimeType = tika.detect(img);
-        byte[] fileContent = FileUtils.readFileToByteArray(img);
-        String encodedString = Base64.getEncoder().encodeToString(fileContent);
-        req.setAttribute("image", encodedString);
-        req.setAttribute("mimeType", mimeType);
+        setMimeType(img, session);
+        setEncodedString(img, session);
+        setUploadedFiles(f, session);
 
-
-        ArrayList<String> uplodedFiles = new ArrayList<>();
-        if (Objects.requireNonNull(f.listFiles()).length != 0) {
-            for (File file : f.listFiles()) {
-                mimeType = tika.detect(file);
-                uplodedFiles.add(file.getName() + " " + file.length() + " " + mimeType);
-            }
-            session.setAttribute("uplodedFiles", uplodedFiles);
-        }
         req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req, resp);
     }
 }

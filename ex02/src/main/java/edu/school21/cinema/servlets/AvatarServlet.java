@@ -2,7 +2,6 @@ package edu.school21.cinema.servlets;
 
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.services.UserHandler;
-import org.apache.tika.Tika;
 import org.springframework.context.ApplicationContext;
 
 import javax.servlet.ServletConfig;
@@ -12,13 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Optional;
 
 @WebServlet("/setAvatar/*")
-public class avatarServlet extends HttpServlet {
+public class AvatarServlet extends HttpServlet {
 
     private ApplicationContext springContext;
 
@@ -43,9 +40,9 @@ public class avatarServlet extends HttpServlet {
 
         userHandler.setAvatar(user.getEmail(), imagePath);
 
-        session.removeAttribute("image");
-        session.removeAttribute("mimeType");
-        resp.reset();
+//        session.removeAttribute("image");
+//        session.removeAttribute("mimeType");
+//        resp.reset();
         resp.sendRedirect("/profile");
     }
 }

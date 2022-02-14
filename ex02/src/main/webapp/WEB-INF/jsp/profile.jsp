@@ -84,7 +84,7 @@
     <tbody>
     <tr>
         <td>
-            <img src="data:<%=request.getAttribute("mimeType")%>;base64,<%=request.getAttribute("image")%>"
+            <img src="data:<%=session.getAttribute("mimeType")%>;base64,<%=session.getAttribute("image")%>"
                  width="280" height="320">
             <form method="post" action="/images" enctype="multipart/form-data">
                 <br>
@@ -140,7 +140,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${sessionScope.uplodedFiles}" var="item">
+        <c:forEach items="${sessionScope.uploadedFiles}" var="item">
             <tr>
                     <%--                    <td>${item.substring(0, item.indexOf(" "))}</td>--%>
                 <td>

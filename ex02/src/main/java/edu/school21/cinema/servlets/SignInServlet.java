@@ -3,6 +3,9 @@ package edu.school21.cinema.servlets;
 import edu.school21.cinema.services.UserHandler;
 import org.springframework.context.ApplicationContext;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,12 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 @WebServlet("/signIn")
 public class SignInServlet extends HttpServlet {
 
+    private static final String SIGN_IN_URL = "/WEB-INF/html/signIn.html";
+
+//    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
     private ApplicationContext springContext;
+
 
     @Override
     public void init(ServletConfig config) {
@@ -26,7 +32,7 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
+        req.getRequestDispatcher(SIGN_IN_URL).forward(req, resp);
     }
 
     @Override
@@ -40,6 +46,7 @@ public class SignInServlet extends HttpServlet {
             try {
                 userHandler.setAuth(EMAIL, req.getRemoteAddr());
             } catch (SQLException e) {
+//                LOGGER.error("SQL error: " + e.getSQLState());
                 e.printStackTrace();
             }
             session.setAttribute("user", userHandler.get(EMAIL));

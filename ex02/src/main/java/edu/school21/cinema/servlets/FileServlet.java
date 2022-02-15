@@ -28,13 +28,21 @@ public class FileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession();
+        if (session.getAttribute("user") == null) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
         User user = ((Optional<User>) session.getAttribute("user")).get();
 
         String storage_path = springContext.getBean("getStoragePath", String.class);
         storage_path = storage_path + user.getEmail() + "/";
 
+
         for (Part part : req.getParts()) {
             try {
+                if (part.getContentType().equals("image/png") ||
+                        part.getContentType().equals("image/jpeg") ||
+                        part.getContentType().equals("image/webp"))
                 part.write((storage_path + part.getSubmittedFileName()));
             }
             catch (Exception ignored) { }

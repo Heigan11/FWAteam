@@ -2,7 +2,6 @@ package edu.school21.cinema.servlets;
 
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.services.UserHandler;
-import org.apache.tika.Tika;
 import org.springframework.context.ApplicationContext;
 
 import javax.servlet.ServletConfig;
@@ -12,13 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Optional;
 
 @WebServlet("/setAvatar/*")
-public class avatarServlet extends HttpServlet {
+public class AvatarServlet extends HttpServlet {
 
     private ApplicationContext springContext;
 
@@ -42,23 +39,6 @@ public class avatarServlet extends HttpServlet {
         User user = ((Optional<User>) session.getAttribute("user")).get();
 
         userHandler.setAvatar(user.getEmail(), imagePath);
-
-//        System.out.println(userHandler.get(user.getEmail()).get().getAvatar());
-
-        session.removeAttribute("image");
-        session.removeAttribute("mimeType");
-        resp.reset();
         resp.sendRedirect("/profile");
-
-//        Tika tika = new Tika();
-//        File file = new File(imagePath);
-//
-//        String mimeType = tika.detect(file);
-//
-//        resp.reset();
-//        resp.setContentType(mimeType);
-//        resp.setHeader("Content-Length", String.valueOf(file.length()));
-//
-//        Files.copy(file.toPath(), resp.getOutputStream());
     }
 }

@@ -1,6 +1,6 @@
 package edu.school21.cinema.config;
 
-import edu.school21.cinema.repositories.UserDAO;
+import edu.school21.cinema.repositories.UserRepository;
 import edu.school21.cinema.services.UserHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -49,8 +49,8 @@ public class SpringConfig {
     }
 
     @Bean
-    public UserDAO userDAO() {
-        return new UserDAO(jdbcTemplate());
+    public UserRepository userDAO() {
+        return new UserRepository(jdbcTemplate());
     }
 
     @Bean
@@ -60,7 +60,7 @@ public class SpringConfig {
 
     @Bean
     public UserHandler userHandler(){
-        return new UserHandler();
+        return new UserHandler(userDAO(),passwordEncoder());
     }
 
     @Bean

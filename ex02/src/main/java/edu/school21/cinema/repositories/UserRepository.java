@@ -7,16 +7,15 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UserDAO {
+public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public UserDAO(JdbcTemplate jdbcTemplate) {
+    public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

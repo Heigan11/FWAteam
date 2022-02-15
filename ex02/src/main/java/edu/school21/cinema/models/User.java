@@ -1,23 +1,19 @@
 package edu.school21.cinema.models;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
 public class User {
 
-    Long id;
-    String name;
-    String surname;
-    String phone;
-    String email;
-    String password;
-    String avatar;
+    private Long id;
+    private String name;
+    private String surname;
+    private String phone;
+    private String email;
+    private String password;
+    private String avatar;
 
     public User(String name, String surname, String phone, String email, String password) {
         this.name = name;

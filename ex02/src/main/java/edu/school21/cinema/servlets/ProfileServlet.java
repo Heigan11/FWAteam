@@ -25,6 +25,8 @@ public class ProfileServlet extends HttpServlet {
 
     private ApplicationContext springContext;
 
+    private static final String PROFILE_JSP = "/WEB-INF/jsp/profile.jsp";
+
     private File setImg(User user, String defaultImg) throws IOException {
         Tika tika = new Tika();
         File img;
@@ -93,6 +95,6 @@ public class ProfileServlet extends HttpServlet {
         setEncodedString(img, session);
         setUploadedFiles(f, session);
 
-        req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req, resp);
+        req.getRequestDispatcher(PROFILE_JSP).forward(req, resp);
     }
 }

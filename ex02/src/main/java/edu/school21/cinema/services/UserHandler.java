@@ -49,8 +49,10 @@ public class UserHandler {
     public void setAuth(String email, String address) throws SQLException {
         if (!StringUtils.isEmpty(email) && !StringUtils.isEmpty(address)) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            Auth auth = new Auth(email, dateFormat.format(new Date()).split(" ")[0],
-                    dateFormat.format(new Date()).split(" ")[1], address);
+            Auth auth = new Auth().setEmail(email)
+                    .setDate(dateFormat.format(new Date()).split(" ")[0])
+                    .setTime(dateFormat.format(new Date()).split(" ")[1])
+                    .setIp(address);
             userRepository.saveAuth(auth);
         }
     }

@@ -39,10 +39,6 @@ public class AvatarServlet extends HttpServlet {
         User user = ((Optional<User>) session.getAttribute("user")).get();
 
         userHandler.setAvatar(user.getEmail(), imagePath);
-
-//        session.removeAttribute("image");
-//        session.removeAttribute("mimeType");
-//        resp.reset();
         resp.sendRedirect("/profile");
     }
 }

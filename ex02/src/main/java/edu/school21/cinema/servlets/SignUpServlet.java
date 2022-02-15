@@ -3,9 +3,9 @@ package edu.school21.cinema.servlets;
 import edu.school21.cinema.services.UserHandler;
 import org.springframework.context.ApplicationContext;
 
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import lombok.extern.slf4j.Slf4j;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,7 +19,10 @@ import java.sql.SQLException;
 @WebServlet("/signUp")
 public class SignUpServlet extends HttpServlet {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
+    private static final String SIGN_UP_URL = "/WEB-INF/html/signUp.html";
+    private static final String REGISTRED_URL = "/WEB-INF/html/registered.html";
+
+//    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
     private ApplicationContext springContext;
 
     @Override
@@ -29,7 +32,7 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/html/signUp.html").forward(req, resp);
+        req.getRequestDispatcher(SIGN_UP_URL).forward(req, resp);
     }
 
     @Override
@@ -39,12 +42,12 @@ public class SignUpServlet extends HttpServlet {
         try {
             if (userHandler.create(req.getParameter("name"), req.getParameter("surname"), req.getParameter("phone"),
                     req.getParameter("email"), req.getParameter("password"))) {
-                req.getRequestDispatcher("/WEB-INF/html/registered.html").forward(req, resp);
+                req.getRequestDispatcher(REGISTRED_URL).forward(req, resp);
             }
             else doGet(req, resp);
         } catch (SQLException e) {
-            LOGGER.error("SQL error: " + e.getSQLState());
-//            e.printStackTrace();
+//            LOGGER.error("SQL error: " + e.getSQLState());
+            e.printStackTrace();
         }
     }
 }

@@ -25,14 +25,16 @@ public class ProfileServlet extends HttpServlet {
 
     private ApplicationContext springContext;
 
-    private static final String PROFILE_JSP = "/WEB-INF/jsp/profile.jsp";
+    private static final String PROFILE_URL = "/WEB-INF/jsp/profile.jsp";
 
     private File setImg(User user, String defaultImg) throws IOException {
         Tika tika = new Tika();
         File img;
         if (!user.getAvatar().isEmpty()) {
             img = new File(user.getAvatar());
-            if (!tika.detect(img).split("/")[0].equals("image"))
+            if (!tika.detect(img).equals("image/png") &&
+                    !tika.detect(img).equals("image/jpeg") &&
+                    !tika.detect(img).equals("image/webp"))
                 img = new File(defaultImg);
         } else
             img = new File(defaultImg);
@@ -95,6 +97,6 @@ public class ProfileServlet extends HttpServlet {
         setEncodedString(img, session);
         setUploadedFiles(f, session);
 
-        req.getRequestDispatcher(PROFILE_JSP).forward(req, resp);
+        req.getRequestDispatcher(PROFILE_URL).forward(req, resp);
     }
 }

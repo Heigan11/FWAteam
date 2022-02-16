@@ -3,9 +3,8 @@ package edu.school21.cinema.servlets;
 import edu.school21.cinema.services.UserHandler;
 import org.springframework.context.ApplicationContext;
 
-//import lombok.extern.slf4j.Slf4j;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ public class SignUpServlet extends HttpServlet {
     private static final String SIGN_UP_URL = "/WEB-INF/html/signUp.html";
     private static final String REGISTRED_URL = "/WEB-INF/html/registered.html";
 
-//    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
+   public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
     private ApplicationContext springContext;
 
     @Override
@@ -46,8 +45,7 @@ public class SignUpServlet extends HttpServlet {
             }
             else doGet(req, resp);
         } catch (SQLException e) {
-//            LOGGER.error("SQL error: " + e.getSQLState());
-            e.printStackTrace();
+           LOGGER.error("SQL error: " + e.getSQLState());
         }
     }
 }

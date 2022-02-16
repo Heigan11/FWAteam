@@ -1,8 +1,5 @@
 package edu.school21.cinema.servlets;
 
-import org.springframework.context.ApplicationContext;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

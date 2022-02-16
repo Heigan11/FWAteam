@@ -21,7 +21,8 @@ public class SignInServlet extends HttpServlet {
 
     private static final String SIGN_IN_URL = "/WEB-INF/html/signIn.html";
 
-//    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
+
     private ApplicationContext springContext;
 
 
@@ -46,8 +47,7 @@ public class SignInServlet extends HttpServlet {
             try {
                 userHandler.setAuth(EMAIL, req.getRemoteAddr());
             } catch (SQLException e) {
-//                LOGGER.error("SQL error: " + e.getSQLState());
-                e.printStackTrace();
+                LOGGER.error("SQL error: " + e.getSQLState());
             }
             session.setAttribute("user", userHandler.get(EMAIL));
             session.setAttribute("authArr", userHandler.getAuth(EMAIL));

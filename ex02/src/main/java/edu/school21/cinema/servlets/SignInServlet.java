@@ -3,8 +3,8 @@ package edu.school21.cinema.servlets;
 import edu.school21.cinema.services.UserHandler;
 import org.springframework.context.ApplicationContext;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

@@ -86,7 +86,6 @@ public class ProfileServlet extends HttpServlet {
         File f = new File(storage_path);
         if (!f.exists())
             if (!f.mkdir())
-//                req.getRequestDispatcher("/WEB-INF/html/signIn.html").forward(req, resp);
                 resp.sendRedirect("/signIn");
 
         session.setAttribute("storagePath", storage_path);

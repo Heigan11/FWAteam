@@ -3,8 +3,8 @@ package edu.school21.cinema.servlets;
 import edu.school21.cinema.services.UserHandler;
 import org.springframework.context.ApplicationContext;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,7 +21,8 @@ public class SignInServlet extends HttpServlet {
 
     private static final String SIGN_IN_URL = "/WEB-INF/html/signIn.html";
 
-//    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SignUpServlet.class);
+
     private ApplicationContext springContext;
 
 
@@ -46,8 +47,7 @@ public class SignInServlet extends HttpServlet {
             try {
                 userHandler.setAuth(EMAIL, req.getRemoteAddr());
             } catch (SQLException e) {
-//                LOGGER.error("SQL error: " + e.getSQLState());
-                e.printStackTrace();
+                LOGGER.error("SQL error: " + e.getSQLState());
             }
             session.setAttribute("user", userHandler.get(EMAIL));
             session.setAttribute("authArr", userHandler.getAuth(EMAIL));
